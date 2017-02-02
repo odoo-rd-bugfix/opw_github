@@ -5,7 +5,7 @@ extension.zip:	extension/e.js extension/manifest.json
 	7z -mx=9 a $@ extension
 
 extension/e.js: script.js
-	closure --compilation_level ADVANCED_OPTIMIZATIONS --js script.js > $@
+	closure-compiler --compilation_level ADVANCED_OPTIMIZATIONS --js script.js > $@
 
 extension/manifest.json:	manifest.json
 	cat manifest.json | tr '\n' ' ' |sed -r 's/([\{\},:\["]|\])\s+/\1/g' > $@
