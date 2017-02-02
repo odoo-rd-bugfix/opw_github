@@ -26,4 +26,4 @@ function treat(node) {
     insertAfter(node, link);
   });
 }
-[].slice.call(document.querySelectorAll("div.comment-body,div.commit-desc")).forEach(treat);
+[].slice.call(document.querySelectorAll(".comment-body,.commit-desc")).forEach(treat);
