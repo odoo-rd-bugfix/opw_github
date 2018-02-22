@@ -11,13 +11,13 @@ function treat(node) {
       return;
   }
   var oval = node.nodeValue;
-  if (oval.indexOf("opw") == -1) {
+  if (oval.indexOf("opw") == -1 && oval.indexOf("OPW") == -1) {
     return;
   }
   var done_offset = 0;
-  oval.replace(/\b(opw[: -] ?)(\d{6,})\b/g, function(match, prefix, num, offset) {
+  oval.replace(/\b(opw[: -] ?)(\d{6,})\b/gi, function(match, prefix, num, offset) {
     var link = document.createElement("a");
-    link.setAttribute("href", "https://www.odoo.com/web#id=" + num + "&view_type=form&model=project.issue");
+    link.setAttribute("href", "https://www.odoo.com/web#id=" + ( num < 1E6 ? 1E6 + +num : num ) + "&view_type=form&model=project.task");
     link.appendChild(document.createTextNode(num));
     node.nodeValue = oval.slice(done_offset, offset + prefix.length);
     done_offset = offset + match.length;
