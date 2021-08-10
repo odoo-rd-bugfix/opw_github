@@ -33,6 +33,21 @@ function treat(node) {
     insertAfter(node, link);
   });
 }
-const treat_all = () => {document.querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled])").forEach(n => {n.setAttribute('data-opw-handled', 1);treat(n)})};
+const treat_all = () => {
+  document.querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled])").forEach(n => {
+    n.setAttribute('data-opw-handled', 1);
+    treat(n)
+  })
+  //add copy to clipboard button without remote:
+  const el = document.querySelector("clipboard-copy");
+  const el_copy = el.cloneNode(true);
+  const svg = el_copy.querySelector('svg');
+  const value = el_copy.getAttribute('value');
+
+  svg.style.color = 'green';
+  el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
+
+  el.parentElement.appendChild(el_copy);
+};
 treat_all();
 window.addEventListener('pjax:end', treat_all);
