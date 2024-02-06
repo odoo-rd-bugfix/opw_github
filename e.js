@@ -50,4 +50,4 @@ const treat_all = () => {
   el.parentElement.appendChild(el_copy);
 };
 treat_all();
-window.addEventListener('pjax:end', treat_all);
+window.addEventListener('turbo:frame-render', treat_all);
