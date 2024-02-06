@@ -33,8 +33,8 @@ function treat(node) {
     insertAfter(node, link);
   });
 }
-const treat_all = () => {
-  document.querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled])").forEach(n => {
+const treat_all = (e) => {
+  (e && e.target || document).querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled])").forEach(n => {
     n.setAttribute('data-opw-handled', 1);
     treat(n)
   })
