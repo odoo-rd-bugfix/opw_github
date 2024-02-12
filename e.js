@@ -48,6 +48,12 @@ const treat_all = () => {
   el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
 
   el.parentElement.appendChild(el_copy);
+
+  if (document.querySelector('a.tabnav-tab.selected[href$="/commits"] #commits_tab_counter[title="1"]')) {
+    let commits = document.querySelectorAll('.TimelineItem-body a.Link--primary');
+    if (commits.length === 1) {
+        commits[0].click();
+    }
+  }
 };
-treat_all();
 window.addEventListener('turbo:load', treat_all);
