@@ -4,10 +4,10 @@
 // @match *://github.com/odoo-dev/*
 // ==/UserScript==
 
-function insertAfter(new_node, ref_node) {
+const insertAfter = (new_node, ref_node) => {
   ref_node.parentNode.insertBefore(new_node, ref_node.nextSibling);
 }
-function treat(node) {
+const treat = node => {
   switch(node.nodeType) {
     case 3:
       break;
@@ -16,13 +16,13 @@ function treat(node) {
     default:
       return;
   }
-  var oval = node.nodeValue;
+  const oval = node.nodeValue;
   if (!/opw|task/i.test(oval)) {
     return;
   }
-  var done_offset = 0;
+  let done_offset = 0;
   oval.replace(/\b((?:opw|task)(?: id)?[: #-] ?)(\d{5,})\b/gi, function(match, prefix, num, offset) {
-    var link = document.createElement("a");
+    const link = document.createElement("a");
     num = prefix[0].toLowerCase() == 'o' && num < 1E6 ? 1E6 + +num : num;
     link.setAttribute("href", "https://www.odoo.com/web#id=" + num + "&view_type=form&model=project.task");
     link.appendChild(document.createTextNode(num));
@@ -39,15 +39,18 @@ const treat_all = () => {
     treat(n)
   })
   //add copy to clipboard button without remote:
-  const el = document.querySelector("clipboard-copy");
-  const el_copy = el.cloneNode(true);
-  const svg = el_copy.querySelector('svg');
-  const value = el_copy.getAttribute('value');
+  document.querySelectorAll("span clipboard-copy").forEach(el => {
+    const el_copy = el.cloneNode(true);
+    const svg = el_copy.querySelector('svg');
+    const value = el_copy.getAttribute('value');
 
-  svg.style.color = 'green';
-  el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
+    if (!~value.indexOf('odoo-dev:')) return;
 
-  el.parentElement.appendChild(el_copy);
+    svg.style.color = 'green';
+    el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
+
+    el.parentElement.appendChild(el_copy);
+  });
 
   if (document.querySelector('a.tabnav-tab.selected[href$="/commits"] #commits_tab_counter[title="1"]')) {
     let commits = document.querySelectorAll('.TimelineItem-body a.Link--primary');
