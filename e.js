@@ -39,18 +39,20 @@ const treat_all = () => {
     treat(n)
   })
   //add copy to clipboard button without remote:
-  document.querySelectorAll("span clipboard-copy").forEach(el => {
-    const el_copy = el.cloneNode(true);
-    const svg = el_copy.querySelector('svg');
-    const value = el_copy.getAttribute('value');
+  document.querySelectorAll("clipboard-copy").forEach(
+    (el) => {
+        if(el.value.includes("odoo-dev")) {
+            const svg = el.querySelector('svg');
+            if (svg.style.color == "red") return;
+            const el_copy = el.cloneNode(true);
+            const value = el_copy.getAttribute('value');
 
-    if (!~value.indexOf('odoo-dev:')) return;
-
-    svg.style.color = 'green';
-    el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
-
-    el.parentElement.appendChild(el_copy);
-  });
+            el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
+            el.parentElement.appendChild(el_copy);
+            svg.style.color = 'red';
+        }
+    }
+  );
 
   if (document.querySelector('a.tabnav-tab.selected[href$="/commits"] #commits_tab_counter[title="1"]')) {
     let commits = document.querySelectorAll('.TimelineItem-body a.Link--primary');
