@@ -2,10 +2,10 @@
   "manifest_version": 3,
   "name": "opw github",
   "description": "add link to odoo issue system on github",
-  "version": "1.1.0.2",
+  "version": "1.1.0.3",
   "content_scripts": [
     {
-      "matches": ["*://github.com/odoo/*", "*://github.com/odoo-dev/*"],
+      "matches": ["*://github.com/odoo/*", "*://github.com/odoo-dev/*", "*://github.com/pulls"],
       "run_at": "document_start",
       "js": ["e.js"]
     }

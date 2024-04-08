@@ -2,6 +2,7 @@
 // @name opw_github
 // @match *://github.com/odoo/*
 // @match *://github.com/odoo-dev/*
+// @match *://github.com/pulls/*
 // ==/UserScript==
 
 const insertAfter = (new_node, ref_node) => {
@@ -68,7 +69,6 @@ const addCommitDirectClick = () => {
     }
   }
 }
-
 window.addEventListener('turbo:load', () => {
   //replace opw-1234 by a link to the odoo.comtask:
   addOPWLinks();
