@@ -62,10 +62,10 @@ const addOPWLinks = () => {
 }
 
 const addCommitDirectClick = () => {
-  if (document.querySelector('a.tabnav-tab.selected[href$="/commits"] #commits_tab_counter[title="1"]')) {
-    let commits = document.querySelectorAll('.TimelineItem-body a.Link--primary');
+  if (document.querySelector('a.TabNav-item.selected[href$="/commits"]')) {
+    let commits = document.querySelectorAll('.Timeline-Item');
     if (commits.length === 1) {
-        commits[0].click();
+        commits[0].querySelector('a').click();
     }
   }
 }
