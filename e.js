@@ -33,7 +33,9 @@ const addOPWLinks = () => {
       case 3:
         break;
       case 1:
-        node.childNodes.forEach(treat);
+        for (let i = node.childNodes.length - 1; i >= 0; i--) {
+            treat(node.childNodes[i]);
+        }
       default:
         return;
     }
