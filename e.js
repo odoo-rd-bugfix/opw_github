@@ -65,7 +65,7 @@ const addOPWLinks = () => {
 
 const addCommitDirectClick = () => {
   if (document.querySelector('a.TabNav-item.selected[href$="/commits"]')) {
-    let commits = document.querySelectorAll('.Timeline-Item');
+    let commits = document.querySelectorAll('[data-testid="commit-row-item"]');
     if (commits.length === 1) {
         commits[0].querySelector('a').click();
     }
