@@ -8,22 +8,24 @@
 const insertAfter = (new_node, ref_node) => {
   ref_node.parentNode.insertBefore(new_node, ref_node.nextSibling);
 }
-
-
+window.navigation.addEventListener('navigate', (event) => {
+    if (event.destination.url.match(/github\.com\/odoo(-dev)?/)) {
+        setTimeout(opwHandle, 1400);
+    }
+});
 const addOPWCopyButton = () => {
   if (document.querySelector('.opw-copy')) return;
 
-  document.querySelectorAll("span clipboard-copy").forEach(el => {
+  document.querySelectorAll('div[class^="prc-PageHeader-Description"] button[data-component="IconButton"]').forEach(el => {
     const el_copy = el.cloneNode(true);
     const svg = el_copy.querySelector('svg');
-    const value = el_copy.getAttribute('value');
-
-    if (!~value.indexOf(':')) return;
-
     svg.style.color = 'green';
-    el_copy.setAttribute('value', value.substr(value.indexOf(':') + 1));
     el_copy.classList.add('opw-copy');
     el.parentElement.appendChild(el_copy);
+    el_copy.onclick = () => {
+      navigator.clipboard.writeText(document.querySelectorAll('a[class^="PullRequestBranchName-module__truncateBranch"]')[1].getAttribute('href').split('/').slice(-1)[0]);
+      svg.style.color = 'blue';
+    }
   });
 }
 
@@ -57,7 +59,7 @@ const addOPWLinks = () => {
     });
   }
 
-  document.querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled])").forEach(n => {
+  document.querySelectorAll(".comment-body:not([data-opw-handled]),.commit-desc:not([data-opw-handled]),span[class^='Text__StyledText-sc'].text-mono").forEach(n => {
     n.setAttribute('data-opw-handled', 1);
     treat(n)
   })
@@ -71,11 +73,12 @@ const addCommitDirectClick = () => {
     }
   }
 }
-window.addEventListener('turbo:load', () => {
+function opwHandle () {
   //replace opw-1234 by a link to the odoo.comtask:
   addOPWLinks();
   //add copy to clipboard button without remote:
   addOPWCopyButton();
   //direct click on commit tab if only one commit
   addCommitDirectClick();
-});
+}
+window.addEventListener('turbo:load', opwHandle);
